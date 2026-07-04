@@ -1,0 +1,1436 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CHIMMK - Visual Designer</title>
+  <meta name="description" content="占美琪 CHIMMK 的视觉设计作品集单页网站。">
+  <style>
+    :root {
+      --ink: #07111f;
+      --muted: #66707d;
+      --soft: #eef4fb;
+      --line: rgba(7, 17, 31, .12);
+      --blue: #246bff;
+      --cyan: #56d4ff;
+      --bg: #fbfdff;
+      --card: rgba(255, 255, 255, .78);
+      --shadow: 0 24px 80px rgba(26, 71, 140, .12);
+      --ease: cubic-bezier(.22, 1, .36, 1);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 85% 20%, rgba(73, 147, 255, .13), transparent 28vw),
+        linear-gradient(180deg, #fff 0%, var(--bg) 55%, #fff 100%);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+      letter-spacing: 0;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+    button { font: inherit; }
+
+    #field {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      opacity: .55;
+    }
+
+    .noise {
+      position: fixed;
+      inset: 0;
+      z-index: 5;
+      pointer-events: none;
+      opacity: .055;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)' opacity='.7'/%3E%3C/svg%3E");
+      mix-blend-mode: multiply;
+    }
+
+    .topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 20;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      height: 68px;
+      padding: 0 clamp(18px, 4vw, 56px);
+      border-bottom: 1px solid rgba(7, 17, 31, .08);
+      background: rgba(255, 255, 255, .78);
+      backdrop-filter: blur(18px);
+    }
+
+    .progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 30;
+      width: 100%;
+      height: 2px;
+      transform-origin: left;
+      transform: scaleX(0);
+      background: linear-gradient(90deg, var(--blue), var(--cyan));
+    }
+
+    .brand {
+      position: relative;
+      font-weight: 760;
+      font-size: 18px;
+      letter-spacing: .02em;
+    }
+
+    .brand::after {
+      content: "";
+      display: inline-block;
+      width: 4px;
+      height: 4px;
+      margin-left: 6px;
+      border-radius: 50%;
+      background: var(--blue);
+      vertical-align: 3px;
+    }
+
+    .nav {
+      display: flex;
+      gap: 28px;
+      color: rgba(7, 17, 31, .66);
+      font-size: 13px;
+    }
+
+    .nav a {
+      position: relative;
+      padding: 24px 0;
+    }
+
+    .nav a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 16px;
+      height: 1px;
+      transform: scaleX(0);
+      transform-origin: left;
+      background: var(--blue);
+      transition: transform .35s var(--ease);
+    }
+
+    .nav a:hover::after { transform: scaleX(1); }
+
+    .nav a:first-child {
+      color: var(--ink);
+      font-weight: 650;
+    }
+
+    .nav a:first-child::after { transform: scaleX(1); }
+
+    .status {
+      justify-self: end;
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      color: rgba(7, 17, 31, .58);
+      font: 12px/1.2 ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+
+    .download-zip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 0 14px;
+      border: 1px solid rgba(36, 107, 255, .28);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .66);
+      color: var(--blue);
+      font: 12px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+      white-space: nowrap;
+      box-shadow: 0 10px 30px rgba(36, 107, 255, .08);
+      transition: transform .3s var(--ease), background .3s var(--ease), box-shadow .3s var(--ease);
+    }
+
+    .download-zip:hover {
+      transform: translateY(-1px);
+      background: #fff;
+      box-shadow: 0 16px 42px rgba(36, 107, 255, .14);
+    }
+
+    .sound {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 7px 11px;
+      background: rgba(255, 255, 255, .56);
+    }
+
+    .hero {
+      position: relative;
+      min-height: 190svh;
+      padding: 0;
+      overflow: clip;
+      background:
+        radial-gradient(circle at 48% 42%, rgba(36, 107, 255, .11), transparent 31vw),
+        radial-gradient(circle at 78% 63%, rgba(86, 212, 255, .1), transparent 19vw);
+    }
+
+    .hero-stage {
+      position: sticky;
+      top: 0;
+      height: 100svh;
+      display: grid;
+      place-items: center;
+      padding: 88px clamp(20px, 5vw, 72px) 34px;
+      transform-origin: 50% 48%;
+      transform: scale(var(--hero-scale, 1));
+      opacity: var(--hero-opacity, 1);
+      will-change: transform, opacity;
+    }
+
+    .hero-scene {
+      position: relative;
+      width: min(1280px, 100%);
+      min-height: min(760px, calc(100svh - 130px));
+      display: grid;
+      place-items: center;
+      text-align: center;
+      animation: heroIntro 1.1s var(--ease) both;
+    }
+
+    @keyframes heroIntro {
+      from { opacity: 0; transform: translateY(18px) scale(.985); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .kicker {
+      margin: 0 0 34px;
+      color: var(--muted);
+      font: 12px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+      text-transform: uppercase;
+    }
+
+    .hero-main {
+      position: relative;
+      width: min(860px, 78vw);
+      margin-top: 12px;
+    }
+
+    .mk-orbit,
+    .mk-grid,
+    .mk-dot {
+      position: absolute;
+      pointer-events: none;
+    }
+
+    .mk-orbit {
+      left: 50%;
+      top: 44%;
+      width: min(860px, 78vw);
+      height: min(270px, 24vw);
+      border: 1px solid rgba(36, 107, 255, .16);
+      border-radius: 50%;
+      transform: translate(-50%, -50%) rotate(6deg);
+    }
+
+    .mk-orbit::before,
+    .mk-orbit::after {
+      content: "";
+      position: absolute;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--blue);
+      box-shadow: 0 0 18px rgba(36, 107, 255, .35);
+    }
+
+    .mk-orbit::before { left: 13%; top: 42%; }
+    .mk-orbit::after { right: 7%; top: 56%; }
+
+    .mk-grid {
+      right: 13%;
+      top: 24%;
+      width: 54px;
+      height: 54px;
+      opacity: .2;
+      background-image: radial-gradient(circle, var(--blue) 1px, transparent 1px);
+      background-size: 7px 7px;
+    }
+
+    .mk-dot {
+      left: 9%;
+      bottom: 16%;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 34% 28%, #fff, #9fbfff 34%, var(--blue));
+      box-shadow: 0 18px 34px rgba(36, 107, 255, .2);
+      animation: dotFloat 5s var(--ease) infinite alternate;
+    }
+
+    .mk-dot.right {
+      left: auto;
+      right: 4%;
+      bottom: 5%;
+      width: 46px;
+      height: 46px;
+      animation-delay: -.8s;
+    }
+
+    @keyframes dotFloat {
+      from { transform: translate3d(0, -8px, 0); }
+      to { transform: translate3d(0, 10px, 0); }
+    }
+
+    .mk-mark {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      font-size: clamp(190px, 37vw, 520px);
+      line-height: .72;
+      font-weight: 900;
+      letter-spacing: -.055em;
+      color: transparent;
+      background:
+        linear-gradient(115deg, rgba(255,255,255,.86) 0 12%, transparent 12% 21%, rgba(255,255,255,.6) 21% 28%, transparent 28%),
+        linear-gradient(135deg, #2f78ff 0%, #0a4eff 34%, #d9e6ff 52%, #0b55ff 72%, #6fb5ff 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      filter: drop-shadow(0 26px 50px rgba(36, 107, 255, .16));
+    }
+
+    .mk-mark::after {
+      content: "";
+      position: absolute;
+      inset: 17% 5% 16% 10%;
+      z-index: -1;
+      background-image: url("chimmk-landing-assets/cover.webp");
+      background-size: cover;
+      background-position: center;
+      opacity: .12;
+      filter: blur(9px);
+      mix-blend-mode: multiply;
+    }
+
+    .hero-copy {
+      position: relative;
+      z-index: 2;
+      margin-top: clamp(-22px, -1.6vw, -8px);
+      color: rgba(7, 17, 31, .72);
+      font-size: 14px;
+      line-height: 1.85;
+    }
+
+    .hero-title {
+      margin: 0 0 12px;
+      color: var(--ink);
+      font-size: clamp(20px, 2.1vw, 30px);
+      line-height: 1.25;
+      font-weight: 760;
+      letter-spacing: .02em;
+    }
+
+    .hero-desc {
+      max-width: 520px;
+      margin: 0 auto;
+      color: rgba(7, 17, 31, .52);
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .hero-meta {
+      justify-content: center;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      min-height: 32px;
+      padding: 0 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .62);
+      color: rgba(7, 17, 31, .68);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .scroll-hint {
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      display: grid;
+      justify-items: center;
+      gap: 6px;
+      color: rgba(7, 17, 31, .45);
+      font: 12px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      transform: translateX(-50%);
+    }
+
+    .scroll-hint::before {
+      content: "";
+      width: 22px;
+      height: 28px;
+      border: 1px solid rgba(7, 17, 31, .35);
+      border-radius: 999px;
+      background:
+        radial-gradient(circle at 50% 9px, var(--blue) 2px, transparent 3px);
+    }
+
+    .side-label {
+      position: absolute;
+      top: 50%;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      color: rgba(7, 17, 31, .52);
+      font: 12px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      writing-mode: vertical-rl;
+      transform: translateY(-50%);
+    }
+
+    .side-label.left {
+      left: 0;
+      transform: translateY(-50%) rotate(180deg);
+    }
+
+    .side-label.right { right: 0; }
+
+    .side-label::before,
+    .side-label::after {
+      content: "";
+      display: block;
+      width: 1px;
+      height: 54px;
+      background: rgba(7, 17, 31, .22);
+    }
+
+    .side-label i {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--blue);
+    }
+
+    section {
+      position: relative;
+      padding: clamp(72px, 11vw, 140px) clamp(20px, 6vw, 86px);
+    }
+
+    .section-inner {
+      width: min(1180px, 100%);
+      margin: 0 auto;
+    }
+
+    .section-label {
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      align-items: baseline;
+      padding-bottom: 18px;
+      margin-bottom: clamp(26px, 4vw, 48px);
+      border-bottom: 1px solid var(--line);
+      color: rgba(7, 17, 31, .55);
+      font: 12px/1.3 ui-monospace, SFMono-Regular, Menlo, monospace;
+      text-transform: uppercase;
+    }
+
+    .section-label strong {
+      color: var(--ink);
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .work-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 18px;
+    }
+
+    .work-rail {
+      position: sticky;
+      top: 92px;
+      z-index: 4;
+      display: flex;
+      justify-content: flex-end;
+      height: 0;
+      pointer-events: none;
+    }
+
+    .work-rail span {
+      display: inline-flex;
+      align-items: center;
+      height: 34px;
+      padding: 0 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .72);
+      color: rgba(7, 17, 31, .58);
+      font: 12px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+      backdrop-filter: blur(16px);
+    }
+
+    .work-card {
+      grid-column: span 6;
+      position: relative;
+      min-height: 420px;
+      overflow: hidden;
+      padding: 0;
+      border: 1px solid rgba(44, 110, 220, .12);
+      border-radius: 8px;
+      background: #fff;
+      color: inherit;
+      text-align: left;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      isolation: isolate;
+      transform-style: preserve-3d;
+      transition: transform .5s var(--ease), box-shadow .5s var(--ease);
+    }
+
+    .work-card.wide { grid-column: span 12; min-height: 520px; }
+
+    .work-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 34px 110px rgba(26, 71, 140, .18);
+    }
+
+    .work-card:focus-visible {
+      outline: 2px solid var(--blue);
+      outline-offset: 4px;
+    }
+
+    .work-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scale(1.02);
+      transition: transform 1.2s var(--ease);
+    }
+
+    .work-card:hover img { transform: scale(1.06); }
+
+    .work-info {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      bottom: 18px;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: end;
+      padding: 18px;
+      border: 1px solid rgba(255, 255, 255, .48);
+      border-radius: 6px;
+      background: rgba(255, 255, 255, .72);
+      backdrop-filter: blur(18px);
+      transform: translateZ(28px);
+    }
+
+    .work-no {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      z-index: 2;
+      color: rgba(7, 17, 31, .38);
+      font: 12px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+      mix-blend-mode: multiply;
+    }
+
+    .work-info h3 {
+      margin: 0 0 6px;
+      font-size: clamp(20px, 2.5vw, 34px);
+      line-height: 1.05;
+      letter-spacing: 0;
+    }
+
+    .work-info p {
+      margin: 0;
+      color: rgba(7, 17, 31, .62);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .tag {
+      color: var(--blue);
+      font: 12px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+      white-space: nowrap;
+    }
+
+    .work-browser {
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      display: grid;
+      place-items: center;
+      padding: clamp(18px, 4vw, 56px);
+      background: rgba(246, 250, 255, .72);
+      backdrop-filter: blur(24px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .34s var(--ease);
+    }
+
+    .work-browser.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .browser-shell {
+      width: min(1180px, 100%);
+      max-height: min(760px, calc(100svh - 72px));
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(280px, .65fr);
+      gap: 0;
+      overflow: hidden;
+      border: 1px solid rgba(36, 107, 255, .16);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, .86);
+      box-shadow: 0 40px 140px rgba(24, 71, 140, .18);
+      transform: translateY(20px) scale(.98);
+      transition: transform .42s var(--ease);
+    }
+
+    .work-browser.open .browser-shell { transform: translateY(0) scale(1); }
+
+    .browser-media {
+      min-height: 420px;
+      background:
+        radial-gradient(circle at 78% 18%, rgba(86, 212, 255, .22), transparent 26vw),
+        #f8fbff;
+    }
+
+    .browser-media img {
+      width: 100%;
+      height: 100%;
+      min-height: 420px;
+      object-fit: cover;
+    }
+
+    .browser-panel {
+      display: grid;
+      align-content: space-between;
+      gap: 34px;
+      padding: clamp(24px, 4vw, 44px);
+      border-left: 1px solid var(--line);
+    }
+
+    .browser-kicker {
+      color: var(--blue);
+      font: 12px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+      text-transform: uppercase;
+    }
+
+    .browser-title {
+      margin: 22px 0 16px;
+      font-size: clamp(34px, 5vw, 68px);
+      line-height: .92;
+      letter-spacing: 0;
+    }
+
+    .browser-desc {
+      margin: 0;
+      color: rgba(7, 17, 31, .64);
+      font-size: 15px;
+      line-height: 1.85;
+    }
+
+    .browser-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 28px;
+    }
+
+    .browser-actions {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .browser-btn,
+    .browser-close {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 42px;
+      height: 42px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .76);
+      color: var(--ink);
+      cursor: pointer;
+      transition: transform .25s var(--ease), border-color .25s var(--ease);
+    }
+
+    .browser-btn:hover,
+    .browser-close:hover {
+      transform: translateY(-1px);
+      border-color: rgba(36, 107, 255, .34);
+    }
+
+    .browser-close {
+      position: absolute;
+      top: 22px;
+      right: 22px;
+      z-index: 2;
+      width: 44px;
+    }
+
+    .browser-count {
+      color: rgba(7, 17, 31, .48);
+      font: 12px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+
+    .about {
+      display: grid;
+      grid-template-columns: minmax(0, .88fr) minmax(0, 1.12fr);
+      gap: clamp(28px, 6vw, 80px);
+      align-items: start;
+    }
+
+    .portrait-card {
+      position: sticky;
+      top: 100px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--card);
+      box-shadow: var(--shadow);
+    }
+
+    .portrait-card img {
+      width: 100%;
+      aspect-ratio: 794 / 1123;
+      object-fit: cover;
+    }
+
+    .bio h2 {
+      margin: 0 0 24px;
+      font-size: clamp(36px, 7vw, 86px);
+      line-height: .96;
+      letter-spacing: 0;
+    }
+
+    .bio p {
+      margin: 0 0 18px;
+      max-width: 680px;
+      color: rgba(7, 17, 31, .72);
+      font-size: clamp(15px, 1.35vw, 18px);
+      line-height: 1.9;
+    }
+
+    .capabilities {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 34px 0 44px;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 2px;
+      border-top: 1px solid var(--line);
+    }
+
+    .principles {
+      padding-top: clamp(38px, 6vw, 74px);
+    }
+
+    .principle-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .principle {
+      min-height: 280px;
+      padding: clamp(24px, 4vw, 48px);
+      border-right: 1px solid var(--line);
+      background: rgba(255, 255, 255, .42);
+      transition: background .4s var(--ease), color .4s var(--ease);
+    }
+
+    .principle:last-child { border-right: 0; }
+
+    .principle:hover {
+      color: #fff;
+      background: var(--ink);
+    }
+
+    .principle span {
+      color: var(--blue);
+      font: 12px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+
+    .principle h3 {
+      margin: 32px 0 18px;
+      font-size: clamp(38px, 6vw, 76px);
+      line-height: .9;
+      letter-spacing: 0;
+    }
+
+    .principle p {
+      margin: 0;
+      max-width: 320px;
+      color: rgba(7, 17, 31, .62);
+      font-size: 14px;
+      line-height: 1.75;
+    }
+
+    .principle:hover p { color: rgba(255, 255, 255, .72); }
+
+    .time-item {
+      display: grid;
+      grid-template-columns: 150px minmax(0, 1fr);
+      gap: 24px;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .time {
+      color: var(--blue);
+      font: 13px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+
+    .role h3 {
+      margin: 0 0 8px;
+      font-size: 18px;
+      line-height: 1.35;
+    }
+
+    .role p {
+      margin: 0;
+      color: rgba(7, 17, 31, .64);
+      font-size: 14px;
+      line-height: 1.75;
+    }
+
+    .contact {
+      min-height: 80svh;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .contact h2 {
+      margin: 0 0 24px;
+      font-size: clamp(48px, 12vw, 138px);
+      line-height: .9;
+      letter-spacing: 0;
+    }
+
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      min-height: 46px;
+      padding: 0 18px;
+      border: 1px solid rgba(7, 17, 31, .12);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--ink);
+      box-shadow: 0 10px 35px rgba(7, 17, 31, .08);
+      transition: transform .35s var(--ease), box-shadow .35s var(--ease);
+    }
+
+    .cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 48px rgba(36, 107, 255, .16);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(26px);
+      transition: opacity .9s var(--ease), transform .9s var(--ease);
+    }
+
+    .reveal.in-view {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .cursor-light {
+      position: fixed;
+      z-index: 1;
+      width: 340px;
+      height: 340px;
+      pointer-events: none;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(circle, rgba(36, 107, 255, .12), transparent 65%);
+      opacity: .7;
+      transition: opacity .25s ease;
+    }
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 28px clamp(20px, 6vw, 86px);
+      border-top: 1px solid var(--line);
+      color: rgba(7, 17, 31, .58);
+      font-size: 13px;
+    }
+
+    @media (max-width: 860px) {
+      .topbar {
+        grid-template-columns: 1fr auto;
+      }
+      .nav { display: none; }
+      .status { font-size: 11px; gap: 8px; }
+      .download-zip { padding-inline: 11px; }
+      .about { grid-template-columns: 1fr; }
+      .hero { min-height: 170svh; }
+      .hero-stage { padding: 76px 18px 26px; }
+      .hero-scene { min-height: calc(100svh - 104px); }
+      .hero-main { width: min(94vw, 620px); }
+      .mk-mark { font-size: clamp(160px, 51vw, 300px); }
+      .mk-orbit { width: 92vw; height: 26vw; }
+      .side-label { display: none; }
+      .work-card, .work-card.wide { grid-column: span 12; min-height: 340px; }
+      .portrait-card { position: relative; top: 0; max-width: 420px; }
+      .time-item { grid-template-columns: 1fr; gap: 8px; }
+      .principle-grid { grid-template-columns: 1fr; }
+      .principle { min-height: 220px; border-right: 0; border-bottom: 1px solid var(--line); }
+      .principle:last-child { border-bottom: 0; }
+      .browser-shell {
+        grid-template-columns: 1fr;
+        max-height: calc(100svh - 36px);
+        overflow: auto;
+      }
+      .browser-media,
+      .browser-media img { min-height: 260px; }
+      .browser-panel { border-left: 0; border-top: 1px solid var(--line); }
+      footer { flex-direction: column; }
+    }
+
+    @media (max-width: 560px) {
+      .topbar { height: 60px; padding-inline: 16px; }
+      .status span:first-child { display: none; }
+      .download-zip { font-size: 11px; min-height: 32px; }
+      .sound { display: none; }
+      .hero-stage { padding-inline: 18px; }
+      .hero-main { width: 100%; }
+      .mk-mark { font-size: clamp(148px, 50vw, 230px); }
+      .mk-orbit { top: 39%; width: 92vw; height: 40vw; }
+      .mk-grid { right: 7%; top: 20%; }
+      .mk-dot { width: 24px; height: 24px; left: 5%; bottom: 22%; }
+      .mk-dot.right { width: 34px; height: 34px; right: 4%; bottom: 12%; }
+      .hero-title { font-size: 18px; }
+      .hero-desc { font-size: 13px; }
+      .hero-meta { gap: 8px; }
+      .work-card, .work-card.wide { min-height: 280px; }
+      .work-info {
+        position: relative;
+        left: auto;
+        right: auto;
+        bottom: auto;
+        margin: -2px 0 0;
+        border-radius: 0;
+        border-inline: 0;
+      }
+      .work-card img { height: 230px; }
+      .work-rail { display: none; }
+      .section-label { align-items: flex-start; flex-direction: column; }
+      .contact-links { align-items: stretch; flex-direction: column; }
+      .work-browser { padding: 12px; }
+      .browser-title { font-size: 34px; }
+      .browser-panel { padding: 22px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation-duration: .001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .001ms !important;
+      }
+      .cursor-light { display: none; }
+      #field { display: none; }
+      .mk-dot { animation: none; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="field" aria-hidden="true"></canvas>
+  <div class="progress" aria-hidden="true"></div>
+  <div class="cursor-light" aria-hidden="true"></div>
+  <div class="noise" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <a class="brand" href="#home">CHIMMK</a>
+    <nav class="nav" aria-label="主导航">
+      <a href="#works">作品集</a>
+      <a href="#timeline">工作经历</a>
+      <a href="#contact">联系我</a>
+    </nav>
+    <div class="status">
+      <a class="download-zip" href="chimmk-resume-portfolio.zip" download>下载作品集</a>
+      <span id="clock">--:-- GMT+8</span>
+      <span class="sound">THEME[A]</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="hero-stage">
+        <div class="hero-scene">
+          <div class="side-label left"><i></i><span>Visual Designer</span></div>
+          <div class="side-label right"><i></i><span>UI / Branding / AIGC</span></div>
+          <div class="hero-main" aria-hidden="true">
+            <div class="mk-orbit"></div>
+            <div class="mk-grid"></div>
+            <div class="mk-dot"></div>
+            <div class="mk-dot right"></div>
+            <h1 class="mk-mark">MK</h1>
+          </div>
+          <div class="hero-copy">
+            <p class="hero-title">视觉设计师 / B 端平台体验设计 / AIGC 辅助创意</p>
+            <p class="hero-desc">10 年视觉设计经验，专注 B 端平台体验设计与品牌视觉，用设计解决复杂信息的表达问题，创造有价值的设计解决方案。</p>
+            <div class="hero-meta">
+              <span class="pill">B-end Platform</span>
+              <span class="pill">UI / UX</span>
+              <span class="pill">Branding</span>
+              <span class="pill">AIGC Workflow</span>
+            </div>
+          </div>
+        </div>
+        <div class="scroll-hint">Scroll to Work</div>
+      </div>
+    </section>
+
+    <section id="works">
+      <div class="section-inner">
+        <div class="section-label reveal">
+          <strong>Selected Works</strong>
+          <span>Scroll-driven reveal after the MK intro</span>
+        </div>
+        <div class="work-grid">
+          <div class="work-rail"><span id="workRail">WORK 01 / 04</span></div>
+          <article class="work-card wide reveal" role="button" tabindex="0" data-work="0" aria-label="浏览 FTP 技术平台 R-DESIGN">
+            <span class="work-no">01</span>
+            <img src="chimmk-landing-assets/ftp.webp" alt="FTP 技术平台 R-DESIGN 作品预览">
+            <div class="work-info">
+              <div>
+                <h3>FTP 技术平台 R-DESIGN</h3>
+                <p>平台首页重构、视觉体系更新、AI 助手入口与运营效率提升。</p>
+              </div>
+              <span class="tag">UI / UX / 2024</span>
+            </div>
+          </article>
+          <article class="work-card reveal" role="button" tabindex="0" data-work="1" aria-label="浏览运营管理平台 UI">
+            <span class="work-no">02</span>
+            <img src="chimmk-landing-assets/ops.webp" alt="运营管理平台 UI 作品预览">
+            <div class="work-info">
+              <div>
+                <h3>运营管理平台 UI</h3>
+                <p>B 端平台信息层级、组件状态和工作台视觉优化。</p>
+              </div>
+              <span class="tag">B-END</span>
+            </div>
+          </article>
+          <article class="work-card reveal" role="button" tabindex="0" data-work="2" aria-label="浏览品牌活动视觉">
+            <span class="work-no">03</span>
+            <img src="chimmk-landing-assets/brand.webp" alt="品牌活动视觉作品预览">
+            <div class="work-info">
+              <div>
+                <h3>品牌活动视觉</h3>
+                <p>活动主视觉、线下物料、H5 与品牌传播落地。</p>
+              </div>
+              <span class="tag">BRANDING</span>
+            </div>
+          </article>
+          <article class="work-card wide reveal" role="button" tabindex="0" data-work="3" aria-label="浏览 AI 辅助创意探索">
+            <span class="work-no">04</span>
+            <img src="chimmk-landing-assets/aigc.webp" alt="AI 辅助创意作品预览">
+            <div class="work-info">
+              <div>
+                <h3>AI 辅助创意探索</h3>
+                <p>结合 Vector to 3D、AIGC 和动态视觉，拓展业务素材的表达边界。</p>
+              </div>
+              <span class="tag">AIGC / MOTION</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="timeline">
+      <div class="section-inner about">
+        <aside class="portrait-card reveal">
+          <img src="chimmk-landing-assets/resume.webp" alt="占美琪简历预览">
+        </aside>
+        <div class="bio">
+          <div class="section-label reveal">
+            <strong>About & Timeline</strong>
+            <span>2015 - 2026</span>
+          </div>
+          <h2 class="reveal">从视觉执行到平台体验设计。</h2>
+          <p class="reveal">拥有腾讯 FiT 金融科技平台项目经验，熟悉平台型产品的视觉改版、信息组织、组件细节、运营位设计和跨团队活动落地。能在复杂业务和高频协作里，保持清晰的视觉判断。</p>
+          <p class="reveal">技能覆盖 Photoshop、Illustrator、Figma、After Effects、H5、手绘插画、Vector to 3D 与 AI 辅助设计流程。</p>
+          <div class="capabilities reveal">
+            <span class="pill">UI Design</span>
+            <span class="pill">Visual System</span>
+            <span class="pill">Brand Campaign</span>
+            <span class="pill">Illustration</span>
+            <span class="pill">Motion</span>
+            <span class="pill">AIGC</span>
+          </div>
+          <div class="timeline">
+            <div class="time-item reveal">
+              <div class="time">2024.01 - 2026.05</div>
+              <div class="role">
+                <h3>中电金信软件有限公司深圳分公司 - 高级用户体验设计工程师</h3>
+                <p>服务腾讯金融科技 FiT 平台产品组，负责 FTP 产品视觉维护、平台 redesign、AI 小助手动态效果、报告与邮件设计、活动主视觉和线下物料。</p>
+              </div>
+            </div>
+            <div class="time-item reveal">
+              <div class="time">2020.05 - 2023.03</div>
+              <div class="role">
+                <h3>中国基金报 · 益正金融服务有限公司 - 视觉设计师</h3>
+                <p>负责机会宝 App 8.0 UI 改版、运营图片规范、公司品牌形象、活动 H5、上市公司业绩会海报与传播物料。</p>
+              </div>
+            </div>
+            <div class="time-item reveal">
+              <div class="time">2018.03 - 2020.05</div>
+              <div class="role">
+                <h3>深圳全棉时代科技有限公司 - 视觉设计师</h3>
+                <p>参与官网商城活动专题、公众号插画、App 日常 UI、节假日活动 H5、IP 插画与包装视觉设计。</p>
+              </div>
+            </div>
+            <div class="time-item reveal">
+              <div class="time">2016.03 - 2018.03</div>
+              <div class="role">
+                <h3>深圳市顺电连锁股份有限公司 - 电商设计师</h3>
+                <p>负责专题页、官网改版、网站 banner、移动端 UI、活动 H5 与电商推广视觉。</p>
+              </div>
+            </div>
+            <div class="time-item reveal">
+              <div class="time">2015.10 - 2016.01</div>
+              <div class="role">
+                <h3>深圳市腾讯计算机系统有限公司 MIG - 设计实习</h3>
+                <p>为内部活动、公众号、招聘宣传和 H5 制作视觉素材，建立早期互联网项目执行经验。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="principles" aria-labelledby="principles-title">
+      <div class="section-inner">
+        <div class="section-label reveal">
+          <strong id="principles-title">Design Principles</strong>
+          <span>Inspired by studio-grade brand systems</span>
+        </div>
+        <div class="principle-grid">
+          <article class="principle reveal">
+            <span>01</span>
+            <h3>Clear.</h3>
+            <p>把平台信息、运营目标和视觉层级整理成用户能快速判断的界面秩序。</p>
+          </article>
+          <article class="principle reveal">
+            <span>02</span>
+            <h3>Useful.</h3>
+            <p>视觉不是装饰，而是帮助业务沟通、减少理解成本、提升协作效率的工具。</p>
+          </article>
+          <article class="principle reveal">
+            <span>03</span>
+            <h3>Scalable.</h3>
+            <p>从单张主视觉到平台组件、活动物料和 AI 辅助流程，都要能延展和复用。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact" id="contact">
+      <div class="section-inner reveal">
+        <h2>Let’s Create<br>Something Clear.</h2>
+        <div class="contact-links">
+          <a class="cta" href="tel:13424406353">134 2440 6353</a>
+          <a class="cta" href="mailto:522072697@qq.com">522072697@qq.com</a>
+          <a class="cta" href="https://chimmk.zcool.com.cn/" target="_blank" rel="noreferrer">chimmk.zcool.com.cn</a>
+          <span class="cta">WeChat chimmk0218</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="work-browser" id="workBrowser" aria-hidden="true">
+    <button class="browser-close" type="button" aria-label="关闭作品浏览">×</button>
+    <div class="browser-shell" role="dialog" aria-modal="true" aria-labelledby="browserTitle">
+      <div class="browser-media">
+        <img id="browserImage" src="chimmk-landing-assets/ftp.webp" alt="">
+      </div>
+      <div class="browser-panel">
+        <div>
+          <div class="browser-kicker" id="browserKicker">WORK 01 / 04</div>
+          <h2 class="browser-title" id="browserTitle">FTP 技术平台 R-DESIGN</h2>
+          <p class="browser-desc" id="browserDesc">平台首页重构、视觉体系更新、AI 助手入口与运营效率提升。</p>
+          <div class="browser-meta" id="browserMeta"></div>
+        </div>
+        <div class="browser-actions">
+          <button class="browser-btn" type="button" data-dir="-1" aria-label="上一个作品">←</button>
+          <span class="browser-count" id="browserCount">01 / 04</span>
+          <button class="browser-btn" type="button" data-dir="1" aria-label="下一个作品">→</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <span>CHIMMK Visual Designer © 2026</span>
+    <span>Shenzhen, China / UI / Branding / AIGC</span>
+  </footer>
+
+  <script>
+    const clock = document.getElementById('clock');
+    const updateClock = () => {
+      const now = new Date();
+      clock.textContent = new Intl.DateTimeFormat('en-GB', {
+        timeZone: 'Asia/Shanghai',
+        hour: '2-digit',
+        minute: '2-digit'
+      }).format(now) + ' GMT+8';
+    };
+    updateClock();
+    setInterval(updateClock, 30000);
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+
+    const cursor = document.querySelector('.cursor-light');
+    let mx = window.innerWidth * .82;
+    let my = window.innerHeight * .22;
+    let cx = mx;
+    let cy = my;
+    window.addEventListener('pointermove', (event) => {
+      mx = event.clientX;
+      my = event.clientY;
+    }, { passive: true });
+    const animateCursor = () => {
+      cx += (mx - cx) * .08;
+      cy += (my - cy) * .08;
+      cursor.style.left = cx + 'px';
+      cursor.style.top = cy + 'px';
+      requestAnimationFrame(animateCursor);
+    };
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      animateCursor();
+    }
+
+    const progress = document.querySelector('.progress');
+    const workRail = document.getElementById('workRail');
+    const cards = [...document.querySelectorAll('.work-card')];
+    const browserOverlay = document.getElementById('workBrowser');
+    const browserImage = document.getElementById('browserImage');
+    const browserKicker = document.getElementById('browserKicker');
+    const browserTitle = document.getElementById('browserTitle');
+    const browserDesc = document.getElementById('browserDesc');
+    const browserMeta = document.getElementById('browserMeta');
+    const browserCount = document.getElementById('browserCount');
+    const closeBrowser = document.querySelector('.browser-close');
+    const hero = document.querySelector('.hero');
+    const heroStage = document.querySelector('.hero-stage');
+    const field = document.getElementById('field');
+    const ctx = field.getContext('2d');
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let width = 0;
+    let height = 0;
+    let dpr = 1;
+    let nodes = [];
+    let activeWork = 0;
+
+    const works = [
+      {
+        title: 'FTP 技术平台 R-DESIGN',
+        image: 'chimmk-landing-assets/ftp.webp',
+        alt: 'FTP 技术平台 R-DESIGN 作品大图',
+        desc: '围绕腾讯金融科技 FTP 平台进行首页重构、视觉体系更新、AI 助手入口与运营效率提升，让跨研发、运营、测试等复杂平台信息更清晰。',
+        tags: ['UI / UX', 'B-END PLATFORM', '2024']
+      },
+      {
+        title: '运营管理平台 UI',
+        image: 'chimmk-landing-assets/ops.webp',
+        alt: '运营管理平台 UI 作品大图',
+        desc: '梳理运营管理后台的信息层级、组件状态、数据分析视图与工作台视觉，提升高频业务操作中的判断效率。',
+        tags: ['B-END', 'DASHBOARD', 'SYSTEM']
+      },
+      {
+        title: '品牌活动视觉',
+        image: 'chimmk-landing-assets/brand.webp',
+        alt: '品牌活动视觉作品大图',
+        desc: '从主视觉到线上 H5、启动邮件、线下展板和周边物料，建立可延展的品牌活动视觉方案。',
+        tags: ['BRANDING', 'KV', 'H5']
+      },
+      {
+        title: 'AI 辅助创意探索',
+        image: 'chimmk-landing-assets/aigc.webp',
+        alt: 'AI 辅助创意探索作品大图',
+        desc: '结合 AIGC、Vector to 3D 和动态视觉流程，探索更高效的业务素材生成、场景表达和创意落地方式。',
+        tags: ['AIGC', 'MOTION', '3D VISUAL']
+      }
+    ];
+
+    const setBrowserWork = (index) => {
+      activeWork = (index + works.length) % works.length;
+      const item = works[activeWork];
+      browserImage.src = item.image;
+      browserImage.alt = item.alt;
+      browserKicker.textContent = `WORK ${String(activeWork + 1).padStart(2, '0')} / ${String(works.length).padStart(2, '0')}`;
+      browserTitle.textContent = item.title;
+      browserDesc.textContent = item.desc;
+      browserCount.textContent = `${String(activeWork + 1).padStart(2, '0')} / ${String(works.length).padStart(2, '0')}`;
+      browserMeta.innerHTML = item.tags.map((tag) => `<span class="pill">${tag}</span>`).join('');
+    };
+
+    const openWorkBrowser = (index) => {
+      setBrowserWork(index);
+      browserOverlay.classList.add('open');
+      browserOverlay.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      closeBrowser.focus();
+    };
+
+    const hideWorkBrowser = () => {
+      browserOverlay.classList.remove('open');
+      browserOverlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    };
+
+    const resizeField = () => {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      width = window.innerWidth;
+      height = window.innerHeight;
+      field.width = Math.floor(width * dpr);
+      field.height = Math.floor(height * dpr);
+      field.style.width = width + 'px';
+      field.style.height = height + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      nodes = Array.from({ length: width < 700 ? 18 : 34 }, (_, i) => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        r: 1 + Math.random() * 2.4,
+        a: Math.random() * Math.PI * 2,
+        s: .18 + Math.random() * .34,
+        phase: i * .41
+      }));
+    };
+
+    const drawField = (time) => {
+      ctx.clearRect(0, 0, width, height);
+      ctx.strokeStyle = 'rgba(36,107,255,.08)';
+      ctx.lineWidth = 1;
+      for (let i = 0; i < nodes.length; i++) {
+        const p = nodes[i];
+        const x = p.x + Math.cos(time * .00018 + p.phase) * 18;
+        const y = p.y + Math.sin(time * .00022 + p.phase) * 18;
+        ctx.beginPath();
+        ctx.arc(x, y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(36,107,255,.13)';
+        ctx.fill();
+        for (let j = i + 1; j < nodes.length; j++) {
+          const q = nodes[j];
+          const qx = q.x + Math.cos(time * .00018 + q.phase) * 18;
+          const qy = q.y + Math.sin(time * .00022 + q.phase) * 18;
+          const dist = Math.hypot(x - qx, y - qy);
+          if (dist < 145) {
+            ctx.globalAlpha = (145 - dist) / 145;
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(qx, qy);
+            ctx.stroke();
+            ctx.globalAlpha = 1;
+          }
+        }
+      }
+      requestAnimationFrame(drawField);
+    };
+
+    const updateScrollUi = () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      progress.style.transform = `scaleX(${max > 0 ? window.scrollY / max : 0})`;
+      const heroTravel = Math.max(1, hero.offsetHeight - window.innerHeight);
+      const heroProgress = Math.min(Math.max(window.scrollY / heroTravel, 0), 1);
+      const eased = 1 - Math.pow(1 - heroProgress, 3);
+      const zoomRange = window.innerWidth < 700 ? 1.9 : 3.35;
+      const scale = 1 + eased * zoomRange;
+      const opacity = Math.max(0, 1 - Math.max(0, heroProgress - .78) / .22);
+      heroStage.style.setProperty('--hero-scale', scale.toFixed(3));
+      heroStage.style.setProperty('--hero-opacity', opacity.toFixed(3));
+      let active = 0;
+      const mid = window.innerHeight * .54;
+      cards.forEach((card, index) => {
+        const rect = card.getBoundingClientRect();
+        if (rect.top < mid && rect.bottom > mid) active = index;
+      });
+      workRail.textContent = `WORK ${String(active + 1).padStart(2, '0')} / ${String(cards.length).padStart(2, '0')}`;
+    };
+
+    window.addEventListener('scroll', updateScrollUi, { passive: true });
+    window.addEventListener('resize', () => {
+      resizeField();
+      updateScrollUi();
+    });
+    cards.forEach((card) => {
+      const index = Number(card.dataset.work);
+      card.addEventListener('click', () => openWorkBrowser(index));
+      card.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          openWorkBrowser(index);
+        }
+      });
+    });
+    document.querySelectorAll('[data-dir]').forEach((button) => {
+      button.addEventListener('click', () => setBrowserWork(activeWork + Number(button.dataset.dir)));
+    });
+    closeBrowser.addEventListener('click', hideWorkBrowser);
+    browserOverlay.addEventListener('click', (event) => {
+      if (event.target === browserOverlay) hideWorkBrowser();
+    });
+    window.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && browserOverlay.classList.contains('open')) hideWorkBrowser();
+      if (browserOverlay.classList.contains('open') && event.key === 'ArrowRight') setBrowserWork(activeWork + 1);
+      if (browserOverlay.classList.contains('open') && event.key === 'ArrowLeft') setBrowserWork(activeWork - 1);
+    });
+    resizeField();
+    updateScrollUi();
+    if (!reduced) requestAnimationFrame(drawField);
+  </script>
+</body>
+</html>
