@@ -6,6 +6,62 @@
   <title>CHIMMK - Visual Designer</title>
   <meta name="description" content="占美琪 CHIMMK 的视觉设计作品集单页网站。">
   <style>
+    @font-face {
+      font-family: "Source Han Sans CN";
+      src: url("chimmk-landing-assets/fonts/SourceHanSansCN-ExtraLight.otf") format("opentype");
+      font-weight: 200;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "Source Han Sans CN";
+      src: url("chimmk-landing-assets/fonts/SourceHanSansCN-Light.otf") format("opentype");
+      font-weight: 300;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "Source Han Sans CN";
+      src: url("chimmk-landing-assets/fonts/SourceHanSansCN-Normal.otf") format("opentype");
+      font-weight: 350;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "Source Han Sans CN";
+      src: url("chimmk-landing-assets/fonts/SourceHanSansCN-Regular.otf") format("opentype");
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "Source Han Sans CN";
+      src: url("chimmk-landing-assets/fonts/SourceHanSansCN-Medium.otf") format("opentype");
+      font-weight: 500;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "Source Han Sans CN";
+      src: url("chimmk-landing-assets/fonts/SourceHanSansCN-Bold.otf") format("opentype");
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "Source Han Sans CN";
+      src: url("chimmk-landing-assets/fonts/SourceHanSansCN-Heavy.otf") format("opentype");
+      font-weight: 900;
+      font-style: normal;
+      font-display: swap;
+    }
+
     :root {
       --ink: #07111f;
       --muted: #66707d;
@@ -27,7 +83,8 @@
       background:
         radial-gradient(circle at 85% 20%, rgba(73, 147, 255, .13), transparent 28vw),
         linear-gradient(180deg, #fff 0%, var(--bg) 55%, #fff 100%);
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+      font-family: "Source Han Sans CN";
+      font-weight: 400;
       letter-spacing: 0;
     }
 
@@ -85,7 +142,7 @@
 
     .brand {
       position: relative;
-      font-weight: 760;
+      font-weight: 700;
       font-size: 18px;
       letter-spacing: .02em;
     }
@@ -130,7 +187,7 @@
 
     .nav a:first-child {
       color: var(--ink);
-      font-weight: 650;
+      font-weight: 500;
     }
 
     .nav a:first-child::after { transform: scaleX(1); }
@@ -141,7 +198,9 @@
       gap: 14px;
       align-items: center;
       color: rgba(7, 17, 31, .58);
-      font: 12px/1.2 ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 12px;
+      line-height: 1.2;
+      font-weight: 400;
     }
 
     .download-zip {
@@ -153,7 +212,9 @@
       border-radius: 999px;
       background: rgba(255, 255, 255, .66);
       color: var(--blue);
-      font: 12px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 12px;
+      line-height: 1;
+      font-weight: 400;
       white-space: nowrap;
       box-shadow: 0 10px 30px rgba(36, 107, 255, .08);
       transition: transform .3s var(--ease), background .3s var(--ease), box-shadow .3s var(--ease);
@@ -213,20 +274,74 @@
     .kicker {
       margin: 0 0 34px;
       color: var(--muted);
-      font: 12px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 12px;
+      line-height: 1.4;
+      font-weight: 400;
       text-transform: uppercase;
     }
 
     .hero-main {
       position: relative;
-      width: min(980px, 78vw);
-      margin-top: -8px;
+      width: min(860px, 78vw);
+      margin-top: 12px;
+      perspective: 1200px;
+      perspective-origin: 50% 48%;
+      transform-style: preserve-3d;
+    }
+
+    .mk-portal {
+      position: relative;
+      transform-style: preserve-3d;
+      transform:
+        translate3d(0, var(--portal-y, 0px), var(--portal-z, 0px))
+        rotateX(var(--portal-rx, 0deg))
+        rotateY(var(--portal-ry, 0deg))
+        rotateZ(var(--portal-rz, 0deg))
+        scale(var(--portal-scale, 1));
+      transition: transform .08s linear;
+      will-change: transform;
+    }
+
+    .portal-ring {
+      position: absolute;
+      inset: -7% 2% 2%;
+      z-index: 0;
+      transform-style: preserve-3d;
+      pointer-events: none;
+      opacity: var(--portal-card-opacity, .14);
+      transition: opacity .18s linear;
+    }
+
+    .portal-card {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: clamp(126px, 17vw, 210px);
+      aspect-ratio: 16 / 10;
+      overflow: hidden;
+      border: 1px solid rgba(36, 107, 255, .13);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, .42);
+      box-shadow: 0 24px 60px rgba(36, 107, 255, .12);
+      transform:
+        translate(-50%, -50%)
+        rotateY(var(--card-ry))
+        translateZ(clamp(180px, 24vw, 300px))
+        rotateY(var(--card-face, 0deg))
+        translateY(var(--card-y, 0px));
+    }
+
+    .portal-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: .82;
+      filter: saturate(1.05) contrast(.96);
     }
 
     .mk-orbit,
     .mk-grid,
     .mk-dot {
-      display: none;
       position: absolute;
       pointer-events: none;
     }
@@ -238,7 +353,7 @@
       height: min(270px, 24vw);
       border: 1px solid rgba(36, 107, 255, .16);
       border-radius: 50%;
-      transform: translate(-50%, -50%) rotate(6deg);
+      transform: translate(-50%, -50%) rotateX(68deg) rotateZ(6deg) translateZ(-20px);
     }
 
     .mk-orbit::before,
@@ -292,23 +407,41 @@
 
     .mk-mark {
       position: relative;
-      z-index: 1;
+      z-index: 2;
       margin: 0;
-      width: 100%;
-      aspect-ratio: 1151 / 492;
+      font-family: "Source Han Sans CN";
+      font-size: clamp(190px, 36vw, 500px);
+      line-height: .74;
+      font-weight: 400;
+      letter-spacing: -.115em;
+      transform: scaleX(.96) translateZ(40px);
+      transform-origin: center;
       color: transparent;
-      filter: drop-shadow(0 24px 50px rgba(36, 107, 255, .1));
+      background:
+        linear-gradient(114deg, rgba(255,255,255,.9) 0 10%, transparent 10% 20%, rgba(255,255,255,.56) 20% 28%, transparent 28%),
+        linear-gradient(135deg, #2f78ff 0%, #0a4eff 34%, #d9e6ff 52%, #0b55ff 72%, #6fb5ff 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      filter: drop-shadow(0 26px 50px rgba(36, 107, 255, .16));
+      animation: mkBreath 7s var(--ease) infinite alternate;
     }
 
-    .mk-reference {
-      display: block;
-      width: 100%;
-      height: auto;
-      opacity: 1;
+    .mk-mark::after {
+      content: "";
+      position: absolute;
+      inset: 17% 5% 16% 10%;
+      z-index: -1;
+      background-image: url("chimmk-landing-assets/cover.webp");
+      background-size: cover;
+      background-position: center;
+      opacity: .12;
+      filter: blur(9px);
       mix-blend-mode: multiply;
-      -webkit-mask-image: radial-gradient(ellipse at center, #000 58%, rgba(0, 0, 0, .82) 70%, transparent 86%);
-      mask-image: radial-gradient(ellipse at center, #000 58%, rgba(0, 0, 0, .82) 70%, transparent 86%);
-      user-select: none;
+    }
+
+    @keyframes mkBreath {
+      from { filter: drop-shadow(0 22px 46px rgba(36, 107, 255, .13)); }
+      to { filter: drop-shadow(0 34px 66px rgba(36, 107, 255, .2)); }
     }
 
     .hero-copy {
@@ -318,6 +451,10 @@
       color: rgba(7, 17, 31, .72);
       font-size: 14px;
       line-height: 1.85;
+      opacity: var(--copy-opacity, 1);
+      transform: translateY(var(--copy-y, 0px));
+      transition: opacity .08s linear, transform .08s linear;
+      will-change: opacity, transform;
     }
 
     .hero-title {
@@ -325,7 +462,7 @@
       color: var(--ink);
       font-size: clamp(20px, 2.1vw, 30px);
       line-height: 1.25;
-      font-weight: 760;
+      font-weight: 700;
       letter-spacing: .02em;
     }
 
@@ -367,7 +504,9 @@
       justify-items: center;
       gap: 6px;
       color: rgba(7, 17, 31, .45);
-      font: 12px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 12px;
+      line-height: 1;
+      font-weight: 400;
       letter-spacing: .12em;
       text-transform: uppercase;
       transform: translateX(-50%);
@@ -390,7 +529,9 @@
       align-items: center;
       gap: 20px;
       color: rgba(7, 17, 31, .52);
-      font: 12px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 12px;
+      line-height: 1;
+      font-weight: 400;
       letter-spacing: .28em;
       text-transform: uppercase;
       writing-mode: vertical-rl;
@@ -439,7 +580,9 @@
       margin-bottom: clamp(26px, 4vw, 48px);
       border-bottom: 1px solid var(--line);
       color: rgba(7, 17, 31, .55);
-      font: 12px/1.3 ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 12px;
+      line-height: 1.3;
+      font-weight: 400;
       text-transform: uppercase;
     }
 
@@ -447,7 +590,7 @@
       color: var(--ink);
       font-family: inherit;
       font-size: 13px;
-      font-weight: 650;
+      font-weight: 500;
     }
 
     .work-grid {
@@ -475,7 +618,9 @@
       border-radius: 999px;
       background: rgba(255, 255, 255, .72);
       color: rgba(7, 17, 31, .58);
-      font: 12px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 12px;
+      line-height: 1;
+      font-weight: 400;
       backdrop-filter: blur(16px);
     }
 
@@ -542,7 +687,9 @@
       left: 20px;
       z-index: 2;
       color: rgba(7, 17, 31, .38);
-      font: 12px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 12px;
+      line-height: 1;
+      font-weight: 400;
       mix-blend-mode: multiply;
     }
 
@@ -562,7 +709,9 @@
 
     .tag {
       color: var(--blue);
-      font: 12px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 12px;
+      line-height: 1;
+      font-weight: 400;
       white-space: nowrap;
     }
 
@@ -626,7 +775,9 @@
 
     .browser-kicker {
       color: var(--blue);
-      font: 12px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 12px;
+      line-height: 1;
+      font-weight: 400;
       text-transform: uppercase;
     }
 
@@ -689,7 +840,9 @@
 
     .browser-count {
       color: rgba(7, 17, 31, .48);
-      font: 12px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 12px;
+      line-height: 1;
+      font-weight: 400;
     }
 
     .about {
@@ -771,7 +924,9 @@
 
     .principle span {
       color: var(--blue);
-      font: 12px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 12px;
+      line-height: 1;
+      font-weight: 400;
     }
 
     .principle h3 {
@@ -801,7 +956,9 @@
 
     .time {
       color: var(--blue);
-      font: 13px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 13px;
+      line-height: 1.4;
+      font-weight: 400;
     }
 
     .role h3 {
@@ -903,7 +1060,7 @@
       .hero-stage { padding: 76px 18px 26px; }
       .hero-scene { min-height: calc(100svh - 104px); }
       .hero-main { width: min(94vw, 620px); }
-      .mk-mark { aspect-ratio: 1151 / 492; }
+      .mk-mark { font-size: clamp(160px, 51vw, 300px); }
       .mk-orbit { width: 92vw; height: 26vw; }
       .side-label { display: none; }
       .work-card, .work-card.wide { grid-column: span 12; min-height: 340px; }
@@ -930,7 +1087,7 @@
       .sound { display: none; }
       .hero-stage { padding-inline: 18px; }
       .hero-main { width: 100%; }
-      .mk-mark { aspect-ratio: 1151 / 492; }
+      .mk-mark { font-size: clamp(148px, 50vw, 230px); }
       .mk-orbit { top: 39%; width: 92vw; height: 40vw; }
       .mk-grid { right: 7%; top: 20%; }
       .mk-dot { width: 24px; height: 24px; left: 5%; bottom: 22%; }
@@ -997,13 +1154,19 @@
           <div class="side-label left"><i></i><span>Visual Designer</span></div>
           <div class="side-label right"><i></i><span>UI / Branding / AIGC</span></div>
           <div class="hero-main" aria-hidden="true">
-            <div class="mk-orbit"></div>
-            <div class="mk-grid"></div>
-            <div class="mk-dot"></div>
-            <div class="mk-dot right"></div>
-            <h1 class="mk-mark" aria-label="MK">
-              <img class="mk-reference" src="chimmk-landing-assets/mk-reference.webp" alt="">
-            </h1>
+            <div class="mk-portal">
+              <div class="portal-ring">
+                <div class="portal-card" style="--card-ry: -42deg; --card-face: 42deg; --card-y: -18px;"><img src="chimmk-landing-assets/ftp.webp" alt=""></div>
+                <div class="portal-card" style="--card-ry: 38deg; --card-face: -38deg; --card-y: 12px;"><img src="chimmk-landing-assets/ops.webp" alt=""></div>
+                <div class="portal-card" style="--card-ry: 132deg; --card-face: -132deg; --card-y: -8px;"><img src="chimmk-landing-assets/brand.webp" alt=""></div>
+                <div class="portal-card" style="--card-ry: 218deg; --card-face: -218deg; --card-y: 18px;"><img src="chimmk-landing-assets/aigc.webp" alt=""></div>
+              </div>
+              <div class="mk-orbit"></div>
+              <div class="mk-grid"></div>
+              <div class="mk-dot"></div>
+              <div class="mk-dot right"></div>
+              <h1 class="mk-mark">MK</h1>
+            </div>
           </div>
           <div class="hero-copy">
             <p class="hero-title">视觉设计师 / B 端平台体验设计 / AIGC 辅助创意</p>
@@ -1205,6 +1368,8 @@
   </footer>
 
   <script>
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+
     const clock = document.getElementById('clock');
     const updateClock = () => {
       const now = new Date();
@@ -1260,6 +1425,7 @@
     const closeBrowser = document.querySelector('.browser-close');
     const hero = document.querySelector('.hero');
     const heroStage = document.querySelector('.hero-stage');
+    const mkPortal = document.querySelector('.mk-portal');
     const field = document.getElementById('field');
     const ctx = field.getContext('2d');
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1381,11 +1547,30 @@
       const heroTravel = Math.max(1, hero.offsetHeight - window.innerHeight);
       const heroProgress = Math.min(Math.max(window.scrollY / heroTravel, 0), 1);
       const eased = 1 - Math.pow(1 - heroProgress, 3);
-      const zoomRange = window.innerWidth < 700 ? 1.9 : 3.35;
+      const zoomRange = window.innerWidth < 700 ? .12 : .18;
       const scale = 1 + eased * zoomRange;
       const opacity = Math.max(0, 1 - Math.max(0, heroProgress - .78) / .22);
+      const copyFade = Math.max(0, 1 - Math.max(0, heroProgress - .28) / .42);
       heroStage.style.setProperty('--hero-scale', scale.toFixed(3));
       heroStage.style.setProperty('--hero-opacity', opacity.toFixed(3));
+      heroStage.style.setProperty('--copy-opacity', copyFade.toFixed(3));
+      heroStage.style.setProperty('--copy-y', `${(-heroProgress * 28).toFixed(1)}px`);
+      if (mkPortal) {
+        const rotateY = -5 + eased * (window.innerWidth < 700 ? 42 : 58);
+        const rotateX = -1 - eased * 5;
+        const rotateZ = Math.sin(heroProgress * Math.PI) * -1.2;
+        const portalScale = 1 + eased * (window.innerWidth < 700 ? .05 : .08);
+        const portalZ = eased * (window.innerWidth < 700 ? 18 : 32);
+        const portalY = -eased * (window.innerWidth < 700 ? 6 : 12);
+        const cardOpacity = .16 + Math.sin(Math.min(heroProgress, .8) / .8 * Math.PI) * .42;
+        mkPortal.style.setProperty('--portal-ry', `${rotateY.toFixed(2)}deg`);
+        mkPortal.style.setProperty('--portal-rx', `${rotateX.toFixed(2)}deg`);
+        mkPortal.style.setProperty('--portal-rz', `${rotateZ.toFixed(2)}deg`);
+        mkPortal.style.setProperty('--portal-scale', portalScale.toFixed(3));
+        mkPortal.style.setProperty('--portal-z', `${portalZ.toFixed(1)}px`);
+        mkPortal.style.setProperty('--portal-y', `${portalY.toFixed(1)}px`);
+        mkPortal.style.setProperty('--portal-card-opacity', cardOpacity.toFixed(3));
+      }
       let active = 0;
       const mid = window.innerHeight * .54;
       cards.forEach((card, index) => {
