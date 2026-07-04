@@ -1369,6 +1369,7 @@
 
   <script>
     if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    if (!location.hash) requestAnimationFrame(() => window.scrollTo(0, 0));
 
     const clock = document.getElementById('clock');
     const updateClock = () => {
