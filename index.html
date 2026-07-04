@@ -860,12 +860,58 @@
       border-radius: 8px;
       background: var(--card);
       box-shadow: var(--shadow);
+      cursor: zoom-in;
+      transition: transform .3s var(--ease), box-shadow .3s var(--ease), border-color .3s var(--ease);
+    }
+
+    .portrait-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(36, 107, 255, .24);
+      box-shadow: 0 32px 96px rgba(26, 71, 140, .16);
     }
 
     .portrait-card img {
       width: 100%;
       aspect-ratio: 794 / 1123;
       object-fit: cover;
+    }
+
+    .resume-lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 70;
+      display: grid;
+      place-items: center;
+      padding: clamp(16px, 4vw, 42px);
+      background: rgba(246, 250, 255, .76);
+      backdrop-filter: blur(24px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .34s var(--ease);
+    }
+
+    .resume-lightbox.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .resume-frame {
+      width: min(760px, 92vw);
+      max-height: calc(100svh - 56px);
+      overflow: auto;
+      border: 1px solid rgba(36, 107, 255, .16);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, .9);
+      box-shadow: 0 40px 140px rgba(24, 71, 140, .2);
+      transform: translateY(18px) scale(.98);
+      transition: transform .42s var(--ease);
+    }
+
+    .resume-lightbox.open .resume-frame { transform: translateY(0) scale(1); }
+
+    .resume-frame img {
+      width: 100%;
+      height: auto;
     }
 
     .bio h2 {
@@ -1157,9 +1203,9 @@
             <div class="mk-portal">
               <div class="portal-ring">
                 <div class="portal-card" style="--card-ry: -42deg; --card-face: 42deg; --card-y: -18px;"><img src="chimmk-landing-assets/ftp.webp" alt=""></div>
-                <div class="portal-card" style="--card-ry: 38deg; --card-face: -38deg; --card-y: 12px;"><img src="chimmk-landing-assets/ops.webp" alt=""></div>
-                <div class="portal-card" style="--card-ry: 132deg; --card-face: -132deg; --card-y: -8px;"><img src="chimmk-landing-assets/brand.webp" alt=""></div>
-                <div class="portal-card" style="--card-ry: 218deg; --card-face: -218deg; --card-y: 18px;"><img src="chimmk-landing-assets/aigc.webp" alt=""></div>
+                <div class="portal-card" style="--card-ry: 38deg; --card-face: -38deg; --card-y: 12px;"><img src="chimmk-landing-assets/ops-page09.webp" alt=""></div>
+                <div class="portal-card" style="--card-ry: 132deg; --card-face: -132deg; --card-y: -8px;"><img src="chimmk-landing-assets/brand-page23.webp" alt=""></div>
+                <div class="portal-card" style="--card-ry: 218deg; --card-face: -218deg; --card-y: 18px;"><img src="chimmk-landing-assets/aigc-page16.webp" alt=""></div>
               </div>
               <div class="mk-orbit"></div>
               <div class="mk-grid"></div>
@@ -1169,10 +1215,10 @@
             </div>
           </div>
           <div class="hero-copy">
-            <p class="hero-title">视觉设计师 / B 端平台体验设计 / AIGC 辅助创意</p>
-            <p class="hero-desc">10 年视觉设计经验，专注 B 端平台体验设计与品牌视觉，用设计解决复杂信息的表达问题，创造有价值的设计解决方案。</p>
+            <p class="hero-title">视觉设计师 / 平台体验设计 / AIGC 辅助创意</p>
+            <p class="hero-desc">10 年视觉设计经验，专注平台体验设计与品牌视觉，用设计解决复杂信息的表达问题，创造有价值的设计解决方案。</p>
             <div class="hero-meta">
-              <span class="pill">B-end Platform</span>
+              <span class="pill">Platform</span>
               <span class="pill">UI / UX</span>
               <span class="pill">Branding</span>
               <span class="pill">AIGC Workflow</span>
@@ -1204,18 +1250,18 @@
           </article>
           <article class="work-card reveal" role="button" tabindex="0" data-work="1" aria-label="浏览运营管理平台 UI">
             <span class="work-no">02</span>
-            <img src="chimmk-landing-assets/ops.webp" alt="运营管理平台 UI 作品预览">
+            <img src="chimmk-landing-assets/ops-page09.webp" alt="运营管理平台 UI 作品预览">
             <div class="work-info">
               <div>
                 <h3>运营管理平台 UI</h3>
-                <p>B 端平台信息层级、组件状态和工作台视觉优化。</p>
+                <p>平台信息层级、组件状态和工作台视觉优化。</p>
               </div>
-              <span class="tag">B-END</span>
+              <span class="tag">PLATFORM</span>
             </div>
           </article>
           <article class="work-card reveal" role="button" tabindex="0" data-work="2" aria-label="浏览品牌活动视觉">
             <span class="work-no">03</span>
-            <img src="chimmk-landing-assets/brand.webp" alt="品牌活动视觉作品预览">
+            <img src="chimmk-landing-assets/brand-page23.webp" alt="品牌活动视觉作品预览">
             <div class="work-info">
               <div>
                 <h3>品牌活动视觉</h3>
@@ -1226,7 +1272,7 @@
           </article>
           <article class="work-card wide reveal" role="button" tabindex="0" data-work="3" aria-label="浏览 AI 辅助创意探索">
             <span class="work-no">04</span>
-            <img src="chimmk-landing-assets/aigc.webp" alt="AI 辅助创意作品预览">
+            <img src="chimmk-landing-assets/aigc-page16.webp" alt="AI 辅助创意作品预览">
             <div class="work-info">
               <div>
                 <h3>AI 辅助创意探索</h3>
@@ -1241,7 +1287,7 @@
 
     <section id="timeline">
       <div class="section-inner about">
-        <aside class="portrait-card reveal">
+        <aside class="portrait-card reveal" role="button" tabindex="0" aria-label="放大查看简历">
           <img src="chimmk-landing-assets/resume.webp" alt="占美琪简历预览">
         </aside>
         <div class="bio">
@@ -1333,7 +1379,7 @@
         <div class="contact-links">
           <a class="cta" href="tel:13424406353">134 2440 6353</a>
           <a class="cta" href="mailto:522072697@qq.com">522072697@qq.com</a>
-          <a class="cta" href="https://chimmk.zcool.com.cn/" target="_blank" rel="noreferrer">chimmk.zcool.com.cn</a>
+          <a class="cta" href="https://www.zcool.com.cn/u/14382011" target="_blank" rel="noreferrer">zcool.com.cn/u/14382011</a>
           <span class="cta">WeChat chimmk0218</span>
         </div>
       </div>
@@ -1359,6 +1405,13 @@
           <button class="browser-btn" type="button" data-dir="1" aria-label="下一个作品">→</button>
         </div>
       </div>
+    </div>
+  </div>
+
+  <div class="resume-lightbox" id="resumeLightbox" aria-hidden="true">
+    <button class="browser-close" id="resumeClose" type="button" aria-label="关闭简历预览">×</button>
+    <div class="resume-frame" role="dialog" aria-modal="true" aria-label="占美琪简历大图">
+      <img src="chimmk-landing-assets/resume.webp" alt="占美琪简历大图">
     </div>
   </div>
 
@@ -1424,6 +1477,9 @@
     const browserMeta = document.getElementById('browserMeta');
     const browserCount = document.getElementById('browserCount');
     const closeBrowser = document.querySelector('.browser-close');
+    const portraitCard = document.querySelector('.portrait-card');
+    const resumeLightbox = document.getElementById('resumeLightbox');
+    const resumeClose = document.getElementById('resumeClose');
     const hero = document.querySelector('.hero');
     const heroStage = document.querySelector('.hero-stage');
     const mkPortal = document.querySelector('.mk-portal');
@@ -1442,25 +1498,25 @@
         image: 'chimmk-landing-assets/ftp.webp',
         alt: 'FTP 技术平台 R-DESIGN 作品大图',
         desc: '围绕腾讯金融科技 FTP 平台进行首页重构、视觉体系更新、AI 助手入口与运营效率提升，让跨研发、运营、测试等复杂平台信息更清晰。',
-        tags: ['UI / UX', 'B-END PLATFORM', '2024']
+        tags: ['UI / UX', 'PLATFORM', '2024']
       },
       {
         title: '运营管理平台 UI',
-        image: 'chimmk-landing-assets/ops.webp',
+        image: 'chimmk-landing-assets/ops-page09.webp',
         alt: '运营管理平台 UI 作品大图',
         desc: '梳理运营管理后台的信息层级、组件状态、数据分析视图与工作台视觉，提升高频业务操作中的判断效率。',
-        tags: ['B-END', 'DASHBOARD', 'SYSTEM']
+        tags: ['PLATFORM', 'DASHBOARD', 'SYSTEM']
       },
       {
         title: '品牌活动视觉',
-        image: 'chimmk-landing-assets/brand.webp',
+        image: 'chimmk-landing-assets/brand-page23.webp',
         alt: '品牌活动视觉作品大图',
         desc: '从主视觉到线上 H5、启动邮件、线下展板和周边物料，建立可延展的品牌活动视觉方案。',
         tags: ['BRANDING', 'KV', 'H5']
       },
       {
         title: 'AI 辅助创意探索',
-        image: 'chimmk-landing-assets/aigc.webp',
+        image: 'chimmk-landing-assets/aigc-page16.webp',
         alt: 'AI 辅助创意探索作品大图',
         desc: '结合 AIGC、Vector to 3D 和动态视觉流程，探索更高效的业务素材生成、场景表达和创意落地方式。',
         tags: ['AIGC', 'MOTION', '3D VISUAL']
@@ -1490,6 +1546,19 @@
     const hideWorkBrowser = () => {
       browserOverlay.classList.remove('open');
       browserOverlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    };
+
+    const openResumeLightbox = () => {
+      resumeLightbox.classList.add('open');
+      resumeLightbox.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      resumeClose.focus();
+    };
+
+    const hideResumeLightbox = () => {
+      resumeLightbox.classList.remove('open');
+      resumeLightbox.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
     };
 
@@ -1603,8 +1672,20 @@
     browserOverlay.addEventListener('click', (event) => {
       if (event.target === browserOverlay) hideWorkBrowser();
     });
+    portraitCard.addEventListener('click', openResumeLightbox);
+    portraitCard.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        openResumeLightbox();
+      }
+    });
+    resumeClose.addEventListener('click', hideResumeLightbox);
+    resumeLightbox.addEventListener('click', (event) => {
+      if (event.target === resumeLightbox) hideResumeLightbox();
+    });
     window.addEventListener('keydown', (event) => {
       if (event.key === 'Escape' && browserOverlay.classList.contains('open')) hideWorkBrowser();
+      if (event.key === 'Escape' && resumeLightbox.classList.contains('open')) hideResumeLightbox();
       if (browserOverlay.classList.contains('open') && event.key === 'ArrowRight') setBrowserWork(activeWork + 1);
       if (browserOverlay.classList.contains('open') && event.key === 'ArrowLeft') setBrowserWork(activeWork - 1);
     });
