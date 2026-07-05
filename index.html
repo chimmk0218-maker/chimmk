@@ -8,7 +8,7 @@
   <style>
     @font-face {
       font-family: "Source Han Sans CN";
-      src: url("chimmk-landing-assets/fonts/SourceHanSansCN-ExtraLight.otf") format("opentype");
+      src: url("chimmk-landing-assets/fonts-subset/SourceHanSansCN-ExtraLight.woff2") format("woff2");
       font-weight: 200;
       font-style: normal;
       font-display: swap;
@@ -16,7 +16,7 @@
 
     @font-face {
       font-family: "Source Han Sans CN";
-      src: url("chimmk-landing-assets/fonts/SourceHanSansCN-Light.otf") format("opentype");
+      src: url("chimmk-landing-assets/fonts-subset/SourceHanSansCN-Light.woff2") format("woff2");
       font-weight: 300;
       font-style: normal;
       font-display: swap;
@@ -24,7 +24,7 @@
 
     @font-face {
       font-family: "Source Han Sans CN";
-      src: url("chimmk-landing-assets/fonts/SourceHanSansCN-Normal.otf") format("opentype");
+      src: url("chimmk-landing-assets/fonts-subset/SourceHanSansCN-Normal.woff2") format("woff2");
       font-weight: 350;
       font-style: normal;
       font-display: swap;
@@ -32,7 +32,7 @@
 
     @font-face {
       font-family: "Source Han Sans CN";
-      src: url("chimmk-landing-assets/fonts/SourceHanSansCN-Regular.otf") format("opentype");
+      src: url("chimmk-landing-assets/fonts-subset/SourceHanSansCN-Regular.woff2") format("woff2");
       font-weight: 400;
       font-style: normal;
       font-display: swap;
@@ -40,7 +40,7 @@
 
     @font-face {
       font-family: "Source Han Sans CN";
-      src: url("chimmk-landing-assets/fonts/SourceHanSansCN-Medium.otf") format("opentype");
+      src: url("chimmk-landing-assets/fonts-subset/SourceHanSansCN-Medium.woff2") format("woff2");
       font-weight: 500;
       font-style: normal;
       font-display: swap;
@@ -48,7 +48,7 @@
 
     @font-face {
       font-family: "Source Han Sans CN";
-      src: url("chimmk-landing-assets/fonts/SourceHanSansCN-Bold.otf") format("opentype");
+      src: url("chimmk-landing-assets/fonts-subset/SourceHanSansCN-Bold.woff2") format("woff2");
       font-weight: 700;
       font-style: normal;
       font-display: swap;
@@ -56,7 +56,7 @@
 
     @font-face {
       font-family: "Source Han Sans CN";
-      src: url("chimmk-landing-assets/fonts/SourceHanSansCN-Heavy.otf") format("opentype");
+      src: url("chimmk-landing-assets/fonts-subset/SourceHanSansCN-Heavy.woff2") format("woff2");
       font-weight: 900;
       font-style: normal;
       font-display: swap;
@@ -76,7 +76,10 @@
     }
 
     * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+    html {
+      scroll-behavior: smooth;
+      font-family: "Source Han Sans CN";
+    }
     body {
       margin: 0;
       color: var(--ink);
@@ -612,6 +615,8 @@
     .work-rail span {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
+      min-width: 96px;
       height: 34px;
       padding: 0 12px;
       border: 1px solid var(--line);
@@ -622,6 +627,7 @@
       line-height: 1;
       font-weight: 400;
       backdrop-filter: blur(16px);
+      white-space: nowrap;
     }
 
     .work-card {
@@ -691,6 +697,7 @@
       line-height: 1;
       font-weight: 400;
       mix-blend-mode: multiply;
+      white-space: nowrap;
     }
 
     .work-info h3 {
@@ -713,6 +720,7 @@
       line-height: 1;
       font-weight: 400;
       white-space: nowrap;
+      flex: 0 0 auto;
     }
 
     .work-browser {
@@ -1033,6 +1041,7 @@
       font-size: clamp(48px, 12vw, 138px);
       line-height: .9;
       letter-spacing: 0;
+      text-transform: uppercase;
     }
 
     .contact-links {
@@ -1160,6 +1169,563 @@
       .browser-panel { padding: 22px; }
     }
 
+    .home-experiment {
+      background:
+        radial-gradient(circle at 62% 45%, rgba(36, 107, 255, .08), transparent 30vw),
+        linear-gradient(180deg, #fff 0%, #fbfdff 58%, #fff 100%);
+    }
+
+    .home-experiment .topbar {
+      height: 86px;
+      border-bottom: 0;
+      background: linear-gradient(180deg, rgba(255,255,255,.94), rgba(255,255,255,.72));
+      backdrop-filter: blur(20px);
+    }
+
+    .home-experiment .brand {
+      font-size: clamp(22px, 2vw, 30px);
+      font-weight: 700;
+      letter-spacing: -.01em;
+    }
+
+    .home-experiment .nav {
+      gap: clamp(32px, 5vw, 58px);
+      color: var(--ink);
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    .home-experiment .nav a {
+      padding: 32px 0 28px;
+    }
+
+    .home-experiment .nav a::after {
+      bottom: 18px;
+      height: 3px;
+    }
+
+    .home-experiment .status {
+      gap: 22px;
+      color: var(--ink);
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .home-experiment #clock,
+    .home-experiment .sound {
+      display: none;
+    }
+
+    .home-experiment .download-zip {
+      display: inline-flex;
+      min-height: 40px;
+      padding: 0 18px;
+      border-color: rgba(36, 107, 255, .32);
+      color: var(--blue);
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .menu-dots {
+      display: grid;
+      grid-template-columns: repeat(3, 4px);
+      gap: 5px;
+      width: 22px;
+      height: 22px;
+      align-content: center;
+      justify-content: center;
+    }
+
+    .menu-dots i {
+      display: block;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--ink);
+    }
+
+    .home-experiment .hero {
+      min-height: 186svh;
+      overflow: visible;
+      background:
+        radial-gradient(circle at 84% 18%, rgba(36, 107, 255, .09), transparent 19vw),
+        radial-gradient(circle at 45% 40%, rgba(36, 107, 255, .05), transparent 30vw);
+    }
+
+    .home-experiment .hero-stage {
+      padding: 112px clamp(28px, 4vw, 68px) 48px;
+      overflow: visible;
+    }
+
+    .editorial-hero {
+      width: min(1480px, 100%);
+      min-height: calc(100svh - 160px);
+      display: grid;
+      grid-template-columns: minmax(430px, .98fr) minmax(520px, 1.32fr) minmax(116px, .26fr);
+      align-items: center;
+      gap: clamp(20px, 3vw, 52px);
+      text-align: left;
+      overflow: visible;
+    }
+
+    .editorial-copy {
+      position: relative;
+      z-index: 5;
+      align-self: center;
+      opacity: var(--copy-opacity, 1);
+      transform: translateY(var(--copy-y, 0));
+      transition: opacity .08s linear, transform .08s linear;
+    }
+
+    .editorial-copy .kicker {
+      position: relative;
+      margin: 0 0 clamp(54px, 7vh, 94px);
+      color: var(--ink);
+      font-family: "Source Han Sans CN";
+      font-size: clamp(14px, 1.3vw, 18px);
+      font-weight: 700;
+      letter-spacing: .02em;
+    }
+
+    .editorial-copy .kicker::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -26px;
+      width: 40px;
+      height: 3px;
+      background: var(--blue);
+    }
+
+    .editorial-title {
+      margin: 0;
+      color: var(--ink);
+      font-size: clamp(34px, 3.1vw, 50px);
+      line-height: 1.28;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+
+    .editorial-title span {
+      color: var(--blue);
+    }
+
+    .editorial-desc {
+      margin: clamp(34px, 5vh, 56px) 0 0;
+      color: rgba(7, 17, 31, .58);
+      font-family: "Source Han Sans CN";
+      font-size: clamp(16px, 1.5vw, 22px);
+      line-height: 1.65;
+      font-weight: 500;
+    }
+
+    .editorial-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      margin-top: clamp(36px, 5vh, 58px);
+    }
+
+    .primary-action,
+    .secondary-action {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      min-width: 168px;
+      min-height: 58px;
+      padding: 0 26px;
+      border-radius: 999px;
+      font-size: 16px;
+      font-weight: 700;
+      box-shadow: 0 16px 38px rgba(7, 17, 31, .1);
+      transition: transform .35s var(--ease), box-shadow .35s var(--ease);
+    }
+
+    .primary-action {
+      background: var(--ink);
+      color: #fff;
+    }
+
+    .secondary-action {
+      border: 1px solid rgba(7, 17, 31, .1);
+      background: rgba(255, 255, 255, .74);
+      color: var(--ink);
+    }
+
+    .primary-action:hover,
+    .secondary-action:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 22px 52px rgba(36, 107, 255, .16);
+    }
+
+    .home-experiment .hero-main {
+      grid-column: 2;
+      width: 100%;
+      margin: 0;
+      perspective: 1100px;
+      justify-self: center;
+      overflow: visible;
+    }
+
+    .editorial-mark {
+      min-height: clamp(520px, 63vh, 740px);
+      isolation: isolate;
+      overflow: visible;
+    }
+
+    .home-experiment .mk-mark {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      z-index: 2;
+      display: inline-block;
+      margin: 0;
+      padding-right: .22em;
+      font-family: "Source Han Sans CN";
+      font-size: clamp(220px, calc(32vw - 50px), 380px);
+      line-height: .74;
+      font-weight: 900;
+      letter-spacing: -.105em;
+      white-space: nowrap;
+      overflow: visible;
+      color: transparent;
+      background:
+        linear-gradient(180deg, #095cff 0%, #0158ff 54%, #004ee9 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      filter: drop-shadow(0 34px 52px rgba(36, 107, 255, .13));
+      transform: translate(-55%, -48%) scaleX(1.02) translateZ(42px);
+      animation: mkBreath 7s var(--ease) infinite alternate;
+    }
+
+    .home-experiment .mk-mark::after {
+      display: none;
+    }
+
+    .collage,
+    .shape {
+      position: absolute;
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .collage {
+      overflow: hidden;
+      background: #eaf2ff;
+      box-shadow: 0 16px 36px rgba(7, 17, 31, .1);
+    }
+
+    .collage img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: none;
+    }
+
+    .tile-eye {
+      right: 8%;
+      top: 8%;
+      width: clamp(86px, 8.2vw, 122px);
+      aspect-ratio: 1 / 1.04;
+    }
+
+    .tile-eye img {
+      object-position: center;
+    }
+
+    .tile-landscape {
+      left: 38%;
+      right: auto;
+      bottom: 3%;
+      width: clamp(180px, 19vw, 280px);
+      aspect-ratio: 1.48 / 1;
+    }
+
+    .shape-block {
+      width: clamp(22px, 2.4vw, 38px);
+      height: clamp(22px, 2.4vw, 38px);
+      background: var(--blue);
+      box-shadow: 0 18px 30px rgba(36, 107, 255, .16);
+    }
+
+    .block-a { left: 45%; top: 7%; }
+    .block-c { left: 32%; bottom: 11%; width: clamp(52px, 5vw, 80px); height: 28px; }
+
+    .dot-matrix {
+      width: 128px;
+      height: 128px;
+      background-image: radial-gradient(circle, rgba(36, 107, 255, .62) 1px, transparent 1.4px);
+      background-size: 9px 9px;
+      opacity: .52;
+    }
+
+    .matrix-a { right: 22%; top: 6%; }
+    .matrix-b { right: 21%; top: 49%; width: 68px; height: 70px; opacity: .62; }
+
+    .outline-ring {
+      left: 7%;
+      right: auto;
+      top: 4%;
+      width: clamp(120px, 12vw, 168px);
+      aspect-ratio: 1;
+      border: 2px solid var(--blue);
+      border-radius: 50%;
+      background: transparent;
+    }
+
+    .work-index {
+      grid-column: 3;
+      position: relative;
+      z-index: 4;
+      align-self: center;
+      justify-self: start;
+      max-width: 118px;
+      transform: translateX(10px);
+      color: rgba(7, 17, 31, .72);
+      font-family: "Source Han Sans CN";
+      font-size: clamp(13px, 1vw, 16px);
+      line-height: 1.55;
+      text-transform: uppercase;
+    }
+
+    .work-index p {
+      margin: 0 0 clamp(30px, 5vh, 58px);
+    }
+
+    .work-index strong {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--ink);
+      font-size: clamp(18px, 1.5vw, 24px);
+      line-height: 1;
+    }
+
+    .index-line {
+      display: block;
+      width: 28px;
+      height: 4px;
+      margin-bottom: 12px;
+      background: var(--blue);
+    }
+
+    .place-label,
+    .scroll-line {
+      position: absolute;
+      bottom: 0;
+      z-index: 6;
+      color: rgba(7, 17, 31, .58);
+      font-family: "Source Han Sans CN";
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: .04em;
+    }
+
+    .place-label {
+      left: 0;
+    }
+
+    .scroll-line {
+      right: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .scroll-line i {
+      position: relative;
+      display: block;
+      width: 54px;
+      height: 1px;
+      background: rgba(36, 107, 255, .7);
+    }
+
+    .scroll-line i::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      top: 50%;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--blue);
+      transform: translateY(-50%);
+    }
+
+    .home-experiment .scroll-hint,
+    .home-experiment .side-label,
+    .home-experiment .mk-orbit,
+    .home-experiment .mk-grid,
+    .home-experiment .mk-dot,
+    .home-experiment .portal-ring {
+      display: none;
+    }
+
+    @media (max-width: 1080px) {
+      .editorial-hero {
+        grid-template-columns: minmax(280px, .88fr) minmax(430px, 1.12fr);
+      }
+      .work-index {
+        display: none;
+      }
+      .home-experiment .mk-mark {
+        font-size: clamp(220px, calc(42vw - 50px), 410px);
+      }
+    }
+
+    @media (max-width: 860px) {
+      .home-experiment .topbar {
+        height: 72px;
+        grid-template-columns: 1fr auto 1fr;
+      }
+      .home-experiment .nav {
+        display: flex;
+        gap: 22px;
+        font-size: 14px;
+      }
+      .home-experiment .status {
+        gap: 12px;
+      }
+      .home-experiment .hero-stage {
+        padding: 92px 20px 34px;
+      }
+      .editorial-hero {
+        grid-template-columns: minmax(300px, .78fr) minmax(390px, 1.22fr);
+        align-content: center;
+        gap: 10px;
+      }
+      .editorial-copy {
+        max-width: 370px;
+      }
+      .editorial-copy .kicker {
+        margin-bottom: 46px;
+      }
+      .editorial-title {
+        font-size: clamp(28px, 4vw, 34px);
+      }
+      .editorial-desc {
+        margin-top: 28px;
+        font-size: 15px;
+      }
+      .editorial-actions {
+        margin-top: 26px;
+        gap: 12px;
+      }
+      .primary-action,
+      .secondary-action {
+        min-width: 138px;
+        min-height: 48px;
+        padding-inline: 18px;
+        font-size: 14px;
+      }
+      .home-experiment .hero-main {
+        grid-column: 2;
+        width: min(118%, 760px);
+        justify-self: start;
+        }
+      .editorial-mark {
+        min-height: 500px;
+      }
+      .home-experiment .mk-mark {
+        font-size: clamp(220px, calc(42vw - 50px), 310px);
+        transform: translate(-63%, -48%) scaleX(1.02) translateZ(42px);
+      }
+      .tile-eye { right: 8%; top: 2%; }
+      .tile-landscape { left: 33%; right: auto; bottom: 0; }
+      .outline-ring { left: 5%; right: auto; top: 3%; width: 116px; }
+      .matrix-a { right: 12%; top: 3%; }
+      .place-label,
+      .scroll-line {
+        font-size: 12px;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .home-experiment .topbar {
+        grid-template-columns: 1fr auto;
+      }
+      .home-experiment .nav {
+        display: none;
+      }
+      .editorial-hero {
+        grid-template-columns: 1fr;
+        gap: 28px;
+      }
+      .editorial-copy {
+        max-width: 620px;
+      }
+      .editorial-copy .kicker {
+        margin-bottom: 34px;
+      }
+      .editorial-title {
+        font-size: clamp(32px, 8vw, 54px);
+      }
+      .editorial-desc {
+        margin-top: 24px;
+      }
+      .home-experiment .hero-main {
+        grid-column: 1;
+      }
+      .editorial-mark {
+        min-height: 360px;
+      }
+      .home-experiment .mk-mark {
+        font-size: clamp(180px, calc(54vw - 50px), 280px);
+      }
+      .place-label,
+      .scroll-line {
+        display: none;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .home-experiment .brand {
+        font-size: 22px;
+      }
+      .home-experiment .sound {
+        display: none;
+      }
+      .home-experiment .download-zip {
+        display: inline-flex;
+        min-height: 34px;
+        padding-inline: 12px;
+        font-size: 12px;
+      }
+      .menu-dots {
+        display: none;
+      }
+      .editorial-hero {
+        min-height: calc(100svh - 120px);
+      }
+      .editorial-title {
+        font-size: clamp(30px, 10vw, 42px);
+      }
+      .editorial-actions {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .primary-action,
+      .secondary-action {
+        min-width: 170px;
+      }
+      .editorial-mark {
+        min-height: 270px;
+      }
+      .home-experiment .mk-mark {
+        font-size: clamp(120px, calc(56vw - 50px), 220px);
+      }
+      .collage {
+        transform: scale(.84);
+      }
+      .tile-landscape {
+        width: 132px;
+      }
+      .matrix-b,
+      .block-c {
+        display: none;
+      }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
       *, *::before, *::after {
@@ -1173,7 +1739,7 @@
     }
   </style>
 </head>
-<body>
+<body class="home-experiment">
   <canvas id="field" aria-hidden="true"></canvas>
   <div class="progress" aria-hidden="true"></div>
   <div class="cursor-light" aria-hidden="true"></div>
@@ -1183,49 +1749,54 @@
     <a class="brand" href="#home">CHIMMK</a>
     <nav class="nav" aria-label="主导航">
       <a href="#works">作品集</a>
-      <a href="#timeline">工作经历</a>
+      <a href="#timeline">工作经历&关于我</a>
       <a href="#contact">联系我</a>
     </nav>
     <div class="status">
       <a class="download-zip" href="chimmk-resume-portfolio.zip" download>下载作品集</a>
       <span id="clock">--:-- GMT+8</span>
       <span class="sound">THEME[A]</span>
+      <span class="menu-dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
     </div>
   </header>
 
   <main>
     <section class="hero" id="home">
       <div class="hero-stage">
-        <div class="hero-scene">
-          <div class="side-label left"><i></i><span>Visual Designer</span></div>
-          <div class="side-label right"><i></i><span>UI / Branding / AIGC</span></div>
+        <div class="hero-scene editorial-hero">
+          <div class="editorial-copy">
+            <p class="kicker">VISUAL DESIGNER</p>
+            <h1 class="editorial-title">用设计解决复杂问题，<br>用视觉<span>创造价值。</span></h1>
+            <p class="editorial-desc">10 年经验 · 平台体验设计<br>AIGC 辅助创意 · 品牌视觉</p>
+            <div class="editorial-actions">
+              <a class="primary-action" href="#works">查看我的作品 <span>→</span></a>
+              <a class="secondary-action" href="#timeline">了解我 <span>→</span></a>
+            </div>
+          </div>
+
           <div class="hero-main" aria-hidden="true">
-            <div class="mk-portal">
-              <div class="portal-ring">
-                <div class="portal-card" style="--card-ry: -42deg; --card-face: 42deg; --card-y: -18px;"><img src="chimmk-landing-assets/ftp.webp" alt=""></div>
-                <div class="portal-card" style="--card-ry: 38deg; --card-face: -38deg; --card-y: 12px;"><img src="chimmk-landing-assets/ops-page09.webp" alt=""></div>
-                <div class="portal-card" style="--card-ry: 132deg; --card-face: -132deg; --card-y: -8px;"><img src="chimmk-landing-assets/brand-page23.webp" alt=""></div>
-                <div class="portal-card" style="--card-ry: 218deg; --card-face: -218deg; --card-y: 18px;"><img src="chimmk-landing-assets/aigc-page16.webp" alt=""></div>
-              </div>
-              <div class="mk-orbit"></div>
-              <div class="mk-grid"></div>
-              <div class="mk-dot"></div>
-              <div class="mk-dot right"></div>
-              <h1 class="mk-mark">MK</h1>
+            <div class="mk-portal editorial-mark">
+              <h2 class="mk-mark">MK</h2>
+              <div class="collage tile-eye"><img src="chimmk-landing-assets/ref-collage/ref-eye.jpg" alt=""></div>
+              <div class="collage tile-landscape"><img src="chimmk-landing-assets/ref-collage/ref-landscape.jpg" alt=""></div>
+              <div class="shape shape-block block-a"></div>
+              <div class="shape shape-block block-c"></div>
+              <div class="shape dot-matrix matrix-a"></div>
+              <div class="shape dot-matrix matrix-b"></div>
+              <div class="shape outline-ring"></div>
             </div>
           </div>
-          <div class="hero-copy">
-            <p class="hero-title">视觉设计师 / 平台体验设计 / AIGC 辅助创意</p>
-            <p class="hero-desc">10 年视觉设计经验，专注平台体验设计与品牌视觉，用设计解决复杂信息的表达问题，创造有价值的设计解决方案。</p>
-            <div class="hero-meta">
-              <span class="pill">Platform</span>
-              <span class="pill">UI / UX</span>
-              <span class="pill">Branding</span>
-              <span class="pill">AIGC Workflow</span>
-            </div>
+
+          <div class="work-index" aria-hidden="true">
+            <span class="index-line"></span>
+            <p><strong>01</strong>B-END<br>PLATFORM</p>
+            <p><strong>02</strong>BRANDING<br>DESIGN</p>
+            <p><strong>03</strong>AIGC<br>WORKFLOW</p>
           </div>
+
+          <div class="place-label">SHENZHEN, CHINA</div>
+          <div class="scroll-line"><span>SCROLL TO WORK</span><i></i></div>
         </div>
-        <div class="scroll-hint">Scroll to Work</div>
       </div>
     </section>
 
@@ -1239,7 +1810,7 @@
           <div class="work-rail"><span id="workRail">WORK 01 / 04</span></div>
           <article class="work-card wide reveal" role="button" tabindex="0" data-work="0" aria-label="浏览 FTP 技术平台 R-DESIGN">
             <span class="work-no">01</span>
-            <img src="chimmk-landing-assets/ftp.webp" alt="FTP 技术平台 R-DESIGN 作品预览">
+            <img src="chimmk-landing-assets/ftp.webp" alt="FTP 技术平台 R-DESIGN 作品预览" loading="lazy" decoding="async">
             <div class="work-info">
               <div>
                 <h3>FTP 技术平台 R-DESIGN</h3>
@@ -1250,7 +1821,7 @@
           </article>
           <article class="work-card reveal" role="button" tabindex="0" data-work="1" aria-label="浏览运营管理平台 UI">
             <span class="work-no">02</span>
-            <img src="chimmk-landing-assets/ops-page09.webp" alt="运营管理平台 UI 作品预览">
+            <img src="chimmk-landing-assets/ops-page09.webp" alt="运营管理平台 UI 作品预览" loading="lazy" decoding="async">
             <div class="work-info">
               <div>
                 <h3>运营管理平台 UI</h3>
@@ -1261,7 +1832,7 @@
           </article>
           <article class="work-card reveal" role="button" tabindex="0" data-work="2" aria-label="浏览品牌活动视觉">
             <span class="work-no">03</span>
-            <img src="chimmk-landing-assets/brand-page23.webp" alt="品牌活动视觉作品预览">
+            <img src="chimmk-landing-assets/brand-page23.webp" alt="品牌活动视觉作品预览" loading="lazy" decoding="async">
             <div class="work-info">
               <div>
                 <h3>品牌活动视觉</h3>
@@ -1272,7 +1843,7 @@
           </article>
           <article class="work-card wide reveal" role="button" tabindex="0" data-work="3" aria-label="浏览 AI 辅助创意探索">
             <span class="work-no">04</span>
-            <img src="chimmk-landing-assets/aigc-page16.webp" alt="AI 辅助创意作品预览">
+            <img src="chimmk-landing-assets/aigc-page16.webp" alt="AI 辅助创意作品预览" loading="lazy" decoding="async">
             <div class="work-info">
               <div>
                 <h3>AI 辅助创意探索</h3>
@@ -1288,7 +1859,7 @@
     <section id="timeline">
       <div class="section-inner about">
         <aside class="portrait-card reveal" role="button" tabindex="0" aria-label="放大查看简历">
-          <img src="chimmk-landing-assets/resume.webp" alt="占美琪简历预览">
+          <img src="chimmk-landing-assets/resume.webp" alt="占美琪简历预览" loading="lazy" decoding="async">
         </aside>
         <div class="bio">
           <div class="section-label reveal">
@@ -1375,7 +1946,7 @@
 
     <section class="contact" id="contact">
       <div class="section-inner reveal">
-        <h2>Let’s Create<br>Something Clear.</h2>
+        <h2>LET'S CREATE<br>SOMETHING CLEAR.</h2>
         <div class="contact-links">
           <a class="cta" href="tel:13424406353">134 2440 6353</a>
           <a class="cta" href="mailto:522072697@qq.com">522072697@qq.com</a>
